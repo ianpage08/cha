@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chá de Casa Nova - Brenda e Ian</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: black;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .fundo {
+      position: relative;
+      width: 65%;
+      height: 95%;
+      background-image: url("c7208b0a-0c6a-43ea-9a35-104e1bbd0941 (1).jpg");
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+    }
+
+    .d-flex {
+      top: 54%;
+      position: absolute;
+      bottom: 12%;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+       gap: 10%; 
+    }
+
+    .acoes {
+      background-color: rgba(182, 5, 5, 0.5); /* deixar transparente depois */
+      width: 10%;
+      height: 20%;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    @media (min-width: 900px) {
+      .fundo {
+        width: 90%;
+        height: 90%;
+      }
+
+      .acoes {
+        width: 10%;
+      }
+
+      .d-flex {
+        bottom: 12%;
+         gap: 5%;  /* espaçamento removido aqui também */
+      }
+    }
+
+    .acoes:hover {
+      transform: scale(1.1);
+      background-color: rgba(255, 255, 255, 0.2);
+    }
+    @media (min-width: 750px) {
+      .fundo {
+        width: 90%;
+        height: 90%;
+      }
+
+      .acoes {
+        width: 9%;
+      }
+
+      .d-flex {
+        bottom: 12%;
+         gap: 7%;  /* espaçamento removido aqui também */
+      }
+    }
+
+    @media (max-width: 750px) {
+      .fundo {
+        width: 90%;
+        height: 90%;
+      }
+
+      .acoes {
+        width: 15%;
+      }
+
+      .d-flex {
+        bottom: 12%;
+         gap: 5%;  /* espaçamento removido aqui também */
+      }
+    }
+    @media (max-width: 600px) {
+      .fundo {
+        width: 90%;
+        height: 90%;
+      }
+
+      .acoes {
+        width: 15%;
+      }
+
+      .d-flex {
+        bottom: 12%;
+         gap: 7%;  /* espaçamento removido aqui também */
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="fundo">
+    <div class="d-flex">
+      <div class="acoes confirmarPresenca" onclick="confirmarPresenca()"></div>
+      <div class="acoes listaDePresente" onclick="window.open('https:/www.amazon.com.br/hz/wishlist/ls/2FPZ1M7A9S6ZS?ref_=wl_share', '_blank')"></div>
+      <div class="acoes local" onclick="window.open('https:/maps.app.goo.gl/pydu9jRgfPEkVbbG7', '_blank')"></div>
+    </div>
+  </div>
+
+  <script>
+    function confirmarPresenca() {
+      const nome = prompt('Digite seu nome para confirmar presença:');
+      if (nome) {
+        alert(`Presença confirmada! Esperamos por você, ${nome}! 🏡`);
+      }
+    }
+  </script>
+</body>
+</html>
