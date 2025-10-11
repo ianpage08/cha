@@ -3,6 +3,9 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Kaushan+Script&display=swap" rel="stylesheet">
   <title>Chá de Casa Nova - Brenda e Ian</title>
   <style>
     body {
@@ -26,6 +29,7 @@
     }
 
     .d-flex {
+
       top: 54%;
       position: absolute;
       bottom: 12%;
@@ -33,101 +37,175 @@
       display: flex;
       justify-content: center;
       align-items: center;
-       gap: 10%; 
+      gap: 10%;
     }
 
     .acoes {
-      background-color: rgba(235, 220, 181, 0); /* deixar transparente depois */
+      background-color: rgba(235, 220, 181, 0);
       width: 10%;
       height: 20%;
       border-radius: 50%;
       cursor: pointer;
       transition: all 0.3s ease;
     }
-    @media (min-width: 900px) {
-      .fundo {
-        width: 90%;
-        height: 90%;
-      }
-
-      .acoes {
-        width: 10%;
-      }
-
-      .d-flex {
-        bottom: 12%;
-         gap: 5%;  /* espaçamento removido aqui também */
-      }
-    }
 
     .acoes:hover {
       transform: scale(1.1);
-      background-color: rgba(255, 255, 255, 0.2);
+      background-color: rgba(255, 255, 255, 0.349);
     }
+    .input-container {
+      font-family: "Kaushan Script", cursive;
+      position: absolute;
+      font-weight: 400;
+      top: 20%;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+      width: 62%;
+      background-color: rgba(46, 46, 46, 0.041);
+      padding: 20px 30px;
+      border-radius: 20px;
+      backdrop-filter: blur(5px);
+      display: none; /* inicial oculto */
+      
+      
+    }
+
+    .input-container input {
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid rgba(109, 108, 108, 0.384);
+      outline: none;
+      width: 200px;
+      font-size: 20px;
+      font-family: "Kaushan Script", cursive;
+    }
+
+    .input-container button {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      background-color: #e4db62;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 18px;
+      font-family: "Kaushan Script", cursive;
+
+    }
+
+    .input-container button:hover {
+      background-color: #e6b83c;
+    }
+
+    .mensagem {
+      font-family: "Kaushan Script", cursive;
+      margin-top: 10px;
+      color: rgb(0, 0, 0);
+      font-weight: bold;
+    }
+
+    @media (min-width: 900px) {
+      .fundo { width: 90%; height: 90%; }
+      .acoes { width: 10%; }
+      .d-flex { bottom: 12%; gap: 5%; }
+    }
+
     @media (min-width: 750px) {
-      .fundo {
-        width: 90%;
-        height: 90%;
-      }
-
-      .acoes {
-        width: 9%;
-      }
-
-      .d-flex {
-        bottom: 12%;
-         gap: 7%;  /* espaçamento removido aqui também */
-      }
+      .fundo { width: 90%; height: 90%; }
+      .acoes { width: 9%; }
+      .d-flex { bottom: 12%; gap: 7%; }
     }
 
     @media (max-width: 750px) {
-      .fundo {
-        width: 90%;
-        height: 90%;
-      }
-
-      .acoes {
-        width: 15%;
-      }
-
-      .d-flex {
-        bottom: 12%;
-         gap: 5%;  /* espaçamento removido aqui também */
-      }
+      .fundo { width: 90%; height: 90%; }
+      .acoes { width: 15%; }
+      .d-flex { bottom: 12%; gap: 5%; }
     }
+
     @media (max-width: 600px) {
-      .fundo {
-        width: 90%;
-        height: 90%;
-      }
-
-      .acoes {
-        width: 15%;
-      }
-
-      .d-flex {
-        bottom: 15%;
-         gap: 7%;  /* espaçamento removido aqui também */
-      }
+      .fundo { width: 90%; height: 90%; }
+      .acoes { width: 15%; }
+      .d-flex { bottom: 15%; gap: 7%; }
     }
   </style>
 </head>
 <body>
   <div class="fundo">
     <div class="d-flex">
-      <div class="acoes confirmarPresenca" onclick="confirmarPresenca()"></div>
+      <div class="acoes confirmarPresenca" onclick="abrirInput()"></div>
       <div class="acoes listaDePresente" onclick="window.open('https://www.amazon.com.br/hz/wishlist/ls/2FPZ1M7A9S6ZS?ref_=wl_share', '_blank')"></div>
       <div class="acoes local" onclick="window.open('https://maps.app.goo.gl/pydu9jRgfPEkVbbG7', '_blank')"></div>
     </div>
+    <div class="input-container" id="inputContainer">
+      <input type="text" id="nomeInput" placeholder="Digite seu nome">
+      <button onclick="confirmarPresenca()">Confirmar</button>
+      <div class="mensagem" id="mensagem"></div>
+    </div>
   </div>
 
-  <script>
-    function confirmarPresenca() {
-      const nome = prompt('Digite seu nome para confirmar presença:');
-      if (nome) {
-        alert(`Presença confirmada! Esperamos por você, ${nome}! 🏡`);
-      }
+  <script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+  import { getFirestore, collection, addDoc, query, where, getDocs } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyCiXXy72mD-Afq3hjLOofm5FA51EFFigtw",
+    authDomain: "cha-de-cozinha-1253d.firebaseapp.com",
+    projectId: "cha-de-cozinha-1253d",
+    storageBucket: "cha-de-cozinha-1253d.firebasestorage.app",
+    messagingSenderId: "248133523921",
+    appId: "1:248133523921:web:0b7611fe52e12d82ac68f0",
+    measurementId: "G-J6H87PJMZ6"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  const inputContainer = document.getElementById("inputContainer");
+  const mensagem = document.getElementById("mensagem");
+  const nomeInput = document.getElementById("nomeInput");
+
+  window.abrirInput = () => {
+    inputContainer.style.display = "flex";
+    nomeInput.focus();
+    
+    mensagem.textContent = '';
+  };
+
+  window.confirmarPresenca = async () => {
+    const nome = nomeInput.value.trim();
+    if (!nome) {
+      
+      mensagem.textContent = 'Por favor, digite seu nome.';
+      return;
     }
-  </script>
+
+    try {
+      const convidadosRef = collection(db, 'convidados');
+      const q = query(convidadosRef, where('nome', '==', nome));
+      const querySnapshot = await getDocs(q);
+
+      if (!querySnapshot.empty) {
+        
+        mensagem.textContent = `😄 Olá ${nome}, você já confirmou sua presença!`;
+        return;
+      }
+
+      await addDoc(convidadosRef, {
+        nome: nome,
+        data: new Date().toISOString()
+      });
+
+      mensagem.textContent = `🎉 Presença confirmada! Esperamos por você, ${nome}! 🏡`;
+      nomeInput.value = '';
+      
+    } catch (e) {
+      console.error('Erro ao salvar no Firebase:', e);
+      mensagem.textContent = 'Ocorreu um erro ao salvar sua presença 😢';
+    }
+  };
+</script>
 </body>
 </html>
