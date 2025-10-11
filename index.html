@@ -166,6 +166,9 @@
   const inputContainer = document.getElementById("inputContainer");
   const mensagem = document.getElementById("mensagem");
   const nomeInput = document.getElementById("nomeInput");
+  const inputButton = document.querySelector(".input-container button");
+
+
 
   window.abrirInput = () => {
     inputContainer.style.display = "flex";
@@ -199,7 +202,10 @@
       });
 
       mensagem.textContent = `🎉 Presença confirmada! Esperamos por você, ${nome}! 🏡`;
-      nomeInput.value = '';
+      nomeInput.style.display ='none' ;
+      inputButton.style.display = 'none';
+
+
       
     } catch (e) {
       console.error('Erro ao salvar no Firebase:', e);
