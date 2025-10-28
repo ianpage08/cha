@@ -190,6 +190,8 @@
       const convidadosRef = collection(db, 'convidados');
       const q = query(convidadosRef, where('nome', '==', nome));
       const querySnapshot = await getDocs(q);
+      
+
 
       if (!querySnapshot.empty) {
         
@@ -198,6 +200,7 @@
       }
 
       await addDoc(convidadosRef, {
+        
         nome: nome,
         data: new Date().toISOString()
       });
